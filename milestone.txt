@@ -1,0 +1,33 @@
+milestone
+
+
+
+front-end
+
+scene, arts
+drag - or others
+UI(main scene, end scene)
+notification(turn change, player change)
+
+
+backend
+
+score compute, records
+specific score records
+mission(earn score)
+add density, becomes bigger, disappear, cannot move. 
+
+
+
+
+Week1: drag - or others, specific score records
+
+Week2: add density, becomes bigger, disappear, cannot move. 
+
+Week3: continue , UI(main scene, end scene)
+
+Week4: scene, arts,  notification(turn change, player change)
+
+Week5: mission(earn score)
+
+
