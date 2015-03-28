@@ -95,6 +95,7 @@
 		BC5399DB1A44DCC90063F482 /* JavaFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D61A44DCC90063F482 /* JavaFoundation.framework */; };
 		BC5399DC1A44DCC90063F482 /* JavaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D71A44DCC90063F482 /* JavaKit.framework */; };
 		D500A00A1AB8C5A4001BD06E /* BlackBall.m in Sources */ = {isa = PBXBuildFile; fileRef = D500A0091AB8C5A4001BD06E /* BlackBall.m */; };
+		D53A61911AC7226E004C1A9A /* EffectBall.m in Sources */ = {isa = PBXBuildFile; fileRef = D53A61901AC7226E004C1A9A /* EffectBall.m */; };
 		D5C38F511AB7E4C8003C6992 /* RedBall.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C38F501AB7E4C8003C6992 /* RedBall.m */; };
 /* End PBXBuildFile section */
 
@@ -217,6 +218,8 @@
 		D352B48019EC608A00829775 /* MetalShaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MetalShaders; path = Source/MetalShaders; sourceTree = "<group>"; };
 		D500A0081AB8C5A4001BD06E /* BlackBall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackBall.h; path = Source/BlackBall.h; sourceTree = "<group>"; };
 		D500A0091AB8C5A4001BD06E /* BlackBall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlackBall.m; path = Source/BlackBall.m; sourceTree = "<group>"; };
+		D53A618F1AC7226E004C1A9A /* EffectBall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectBall.h; path = Source/EffectBall.h; sourceTree = "<group>"; };
+		D53A61901AC7226E004C1A9A /* EffectBall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EffectBall.m; path = Source/EffectBall.m; sourceTree = "<group>"; };
 		D5C38F4F1AB7E4C8003C6992 /* RedBall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RedBall.h; path = Source/RedBall.h; sourceTree = "<group>"; };
 		D5C38F501AB7E4C8003C6992 /* RedBall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RedBall.m; path = Source/RedBall.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -447,9 +450,11 @@
 				B7378993180767190076A88C /* MainScene.m */,
 				D500A0081AB8C5A4001BD06E /* BlackBall.h */,
 				D500A0091AB8C5A4001BD06E /* BlackBall.m */,
-				D352B48019EC608A00829775 /* MetalShaders */,
 				D5C38F4F1AB7E4C8003C6992 /* RedBall.h */,
 				D5C38F501AB7E4C8003C6992 /* RedBall.m */,
+				D53A618F1AC7226E004C1A9A /* EffectBall.h */,
+				D53A61901AC7226E004C1A9A /* EffectBall.m */,
+				D352B48019EC608A00829775 /* MetalShaders */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -829,6 +834,7 @@
 				B73789871807631A0076A88C /* main.m in Sources */,
 				7A046D8C19E8A20E004C4763 /* MainScene.m in Sources */,
 				D5C38F511AB7E4C8003C6992 /* RedBall.m in Sources */,
+				D53A61911AC7226E004C1A9A /* EffectBall.m in Sources */,
 				D500A00A1AB8C5A4001BD06E /* BlackBall.m in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
 			);

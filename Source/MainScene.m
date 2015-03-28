@@ -2,6 +2,8 @@
 #import "CCPhysics+ObjectiveChipmunk.h"
 #import "RedBall.h"
 #import "BlackBall.h"
+#import "EffectBall.h"
+
 static const float MIN_SPEED = 2.f;
 
 @implementation MainScene{
@@ -14,6 +16,8 @@ static const float MIN_SPEED = 2.f;
     int num;
     int numOfBall;
     NSMutableArray *_mySpriteArray;
+    
+    EffectBall *_effectball;
 }
 
 - (void)didLoadFromCCB {
@@ -29,11 +33,47 @@ static const float MIN_SPEED = 2.f;
     num = 1;
     //球的个数
     numOfBall = 0;
+    
+    _physicsNode.collisionDelegate = self;
+    
     //存球的数组
     _mySpriteArray=[[NSMutableArray alloc] init];
-    
+    _effectball =[CCBReader load:@"EffectBall"];
+    _effectball.state = [self getRandomNumberBetweenMin:0 andMax:4];
+    _effectball.position = ccp(500,150);   //特效球测试
+    [_physicsNode addChild:_effectball];
+    NSLog(@"The state of effect ball is=%d",_effectball.state);
 }
 
+
+- (int) getRandomNumberBetweenMin:(int)min andMax:(int)max {
+    return ( (arc4random() % (max-min+1)) + min );
+}
+
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair effect:(EffectBall *)nodeA wildcard:(CCNode *)nodeB
+{
+   //看球的类型，如果是类型1，就移走小球
+    if(nodeA.state == 1){
+        [[_physicsNode space] addPostStepBlock:^{
+            [self ballRemoved:nodeA andBall:nodeB];
+        } key:nodeA];
+    //CCLOG(@"Something collided with a effect!");
+    }
+    
+    else if(nodeA.state == 2){
+        [[_physicsNode space] addPostStepBlock:^{
+            [self ballRemoved:nodeA andBall:nodeB];
+        } key:nodeA];
+        //CCLOG(@"Something collided with a effect!");
+    }
+}
+
+- (void)ballRemoved:(CCNode *)effectone andBall: (CCNode *)ball{
+    [effectone removeFromParent];
+    [_mySpriteArray removeObject:ball];
+    [ball removeFromParent];
+    [self nextAttempt];
+}
 
 -(void) touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
     //当上一个球停止了才可以发射新的球
@@ -84,7 +124,7 @@ static const float MIN_SPEED = 2.f;
             _currentball = [CCBReader load:@"BlackBall"];
         }
         //添加到数组里
-        [_mySpriteArray insertObject:_currentball  atIndex:numOfBall];
+        [_mySpriteArray insertObject:_currentball atIndex:_mySpriteArray.count];
         numOfBall++;
         num++;
         _currentball.position = ccp(30,150);
@@ -115,12 +155,15 @@ static const float MIN_SPEED = 2.f;
 
 - (void)update:(CCTime)delta{
     //实时更新，这里可以用来读取球的位置update分数
-    for (int i=0; i<numOfBall; i++) // Opponents is NSMutableArray
+   // NSLog(@"The state of effect ball is=%d",_effectball.state);
+    NSLog(@"The number in the array is =%lu",(unsigned long)_mySpriteArray.count);
+
+    for (int i=0; i<_mySpriteArray.count; i++) // Opponents is NSMutableArray
     {
         CCNode* ball = [_mySpriteArray objectAtIndex:i];
         
-        NSLog(@"x=%f",ball.position.x);
-        
+        //NSLog(@"The number in the array is =%lu",(unsigned long)_mySpriteArray.count);
+
         
     }
     
