@@ -39,7 +39,7 @@ static const float MIN_SPEED = 2.f;
     //存球的数组
     _mySpriteArray=[[NSMutableArray alloc] init];
     _effectball =[CCBReader load:@"EffectBall"];
-    _effectball.state = [self getRandomNumberBetweenMin:0 andMax:4];
+    _effectball.state = [self getRandomNumberBetweenMin:1 andMax:4];
     _effectball.position = ccp(500,150);   //特效球测试
     [_physicsNode addChild:_effectball];
     NSLog(@"The state of effect ball is=%d",_effectball.state);
@@ -52,6 +52,8 @@ static const float MIN_SPEED = 2.f;
 
 -(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair effect:(EffectBall *)nodeA wildcard:(CCNode *)nodeB
 {
+    
+    
    //看球的类型，如果是类型1，就移走小球
     if(nodeA.state == 1){
         [[_physicsNode space] addPostStepBlock:^{
@@ -59,13 +61,41 @@ static const float MIN_SPEED = 2.f;
         } key:nodeA];
     //CCLOG(@"Something collided with a effect!");
     }
-    
+    //如果是特效2，给碰到的小球一个超大的力
     else if(nodeA.state == 2){
         [[_physicsNode space] addPostStepBlock:^{
-            [self ballRemoved:nodeA andBall:nodeB];
+            [self moveQuick:nodeA andBall:nodeB];
         } key:nodeA];
-        //CCLOG(@"Something collided with a effect!");
     }
+    //如果是特效3，给碰到的小球加密度，使他不会再动
+    else if(nodeA.state == 3){
+        [[_physicsNode space] addPostStepBlock:^{
+            [self addDensity:nodeA andBall:nodeB];
+        } key:nodeA];
+    }
+    //类型4，变大球，加密度
+    else if(nodeA.state == 4){
+        [[_physicsNode space] addPostStepBlock:^{
+            [self becomeBigger:nodeA andBall:nodeB];
+        } key:nodeA];
+    }
+}
+
+- (void)becomeBigger:(CCNode *)effectone andBall: (CCNode *)ball{
+    [effectone removeFromParent];
+    ball.scale = 2.f;
+    [ball.physicsBody setDensity:1000.f];
+}
+
+- (void)addDensity:(CCNode *)effectone andBall: (CCNode *)ball{
+    [effectone removeFromParent];
+    [ball.physicsBody setDensity:2000.f];
+}
+
+- (void)moveQuick:(CCNode *)effectone andBall: (CCNode *)ball{
+    [effectone removeFromParent];
+    [ball.physicsBody applyImpulse:ccp(2000.f,2000.3f)];
+    
 }
 
 - (void)ballRemoved:(CCNode *)effectone andBall: (CCNode *)ball{
