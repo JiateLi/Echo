@@ -3,6 +3,7 @@
 #import "RedBall.h"
 #import "BlackBall.h"
 #import "EffectBall.h"
+#import "Arrow.h"
 
 static const float MIN_SPEED = 2.f;
 
@@ -12,6 +13,7 @@ static const float MIN_SPEED = 2.f;
     //CCNode* redball;
     CCAction *_followBall;
     CCNode *_contentNode;
+    Arrow *_arrow;
     BOOL isBallStop;
     int num;
     int numOfBall;
@@ -40,9 +42,17 @@ static const float MIN_SPEED = 2.f;
     _mySpriteArray=[[NSMutableArray alloc] init];
     _effectball =[CCBReader load:@"EffectBall"];
     _effectball.state = [self getRandomNumberBetweenMin:1 andMax:4];
-    _effectball.position = ccp(500,150);   //特效球测试
+    //_effectball.position = ccp(500,150);   //特效球测试
+    _effectball.position = ccp([self getRandomNumberBetweenMin:100 andMax:540],[self getRandomNumberBetweenMin:15 andMax:280]);   //特效球测
     [_physicsNode addChild:_effectball];
     NSLog(@"The state of effect ball is=%d",_effectball.state);
+    
+    
+    _arrow = [CCBReader load:@"Arrow"];
+    _arrow.position = ccp(30, 150);
+    _arrow.visible = false;
+    [_contentNode addChild:_arrow];
+    
 }
 
 
@@ -60,24 +70,40 @@ static const float MIN_SPEED = 2.f;
             [self ballRemoved:nodeA andBall:nodeB];
         } key:nodeA];
     //CCLOG(@"Something collided with a effect!");
+        _effectball =[CCBReader load:@"EffectBall"];
+        _effectball.state = [self getRandomNumberBetweenMin:1 andMax:4];
+        _effectball.position = ccp([self getRandomNumberBetweenMin:100 andMax:540],[self getRandomNumberBetweenMin:15 andMax:280]);   //特效球测
+        [_physicsNode addChild:_effectball];
     }
     //如果是特效2，给碰到的小球一个超大的力
     else if(nodeA.state == 2){
         [[_physicsNode space] addPostStepBlock:^{
             [self moveQuick:nodeA andBall:nodeB];
         } key:nodeA];
+        _effectball =[CCBReader load:@"EffectBall"];
+        _effectball.state = [self getRandomNumberBetweenMin:1 andMax:4];
+        _effectball.position = ccp([self getRandomNumberBetweenMin:100 andMax:540],[self getRandomNumberBetweenMin:15 andMax:280]);   //特效球测
+        [_physicsNode addChild:_effectball];
     }
     //如果是特效3，给碰到的小球加密度，使他不会再动
     else if(nodeA.state == 3){
         [[_physicsNode space] addPostStepBlock:^{
             [self addDensity:nodeA andBall:nodeB];
         } key:nodeA];
+        _effectball =[CCBReader load:@"EffectBall"];
+        _effectball.state = [self getRandomNumberBetweenMin:1 andMax:4];
+        _effectball.position = ccp([self getRandomNumberBetweenMin:100 andMax:540],[self getRandomNumberBetweenMin:15 andMax:280]);   //特效球测
+        [_physicsNode addChild:_effectball];
     }
     //类型4，变大球，加密度
     else if(nodeA.state == 4){
         [[_physicsNode space] addPostStepBlock:^{
             [self becomeBigger:nodeA andBall:nodeB];
         } key:nodeA];
+        _effectball =[CCBReader load:@"EffectBall"];
+        _effectball.state = [self getRandomNumberBetweenMin:1 andMax:4];
+        _effectball.position = ccp([self getRandomNumberBetweenMin:100 andMax:540],[self getRandomNumberBetweenMin:15 andMax:280]);   //特效球测
+        [_physicsNode addChild:_effectball];
     }
 }
 
