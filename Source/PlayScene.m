@@ -12,29 +12,48 @@
 #import "BlackBall.h"
 #import "EffectBall.h"
 #import "Arrow.h"
-static const float MIN_SPEED = 2.f;
+static const float MIN_SPEED = 5.f;
+static const int First_Line = 166;
+static const int Second_Line = 246;
+static const int Third_Line = 328;
+static const int Forth_Line = 408;
 
 @implementation PlayScene{
     CCPhysicsNode *_physicsNode;
-    RedBall *_currentball;
+    //RedBall *_currentball;
+    CCNode *_currentball;
     //the following CCNode are labels
     CCNode *_redturn;
     CCNode *_greenturn;
+    CCNode *_redwin;
+    CCNode *_greenwin;
     CCNode *_disappear;
     CCNode *_fix;
     CCNode *_force;
     CCNode *_expand;
     
+    
+    CCLabelTTF *_blackScoreLabel;
+    CCLabelTTF *_redScoreLabel;
+    
     CCAction *_followBall;
     CCNode *_contentNode;
     Arrow *_arrow;
+    
     BOOL isBallStop;
     BOOL isEffectBallExist;
     BOOL isEffectOccur;
+    BOOL isBallLaunched;
+    BOOL isGameOn;
     
     int effectTimeCount;
     int num;
     int numOfBall;
+    int scoreOfRed;
+    int scoreOfBlack;
+    int finalScoreOfRed;
+    int finalScoreOfBlack;
+    int endCount;
     NSMutableArray *_mySpriteArray;
     
     EffectBall *_effectball;
@@ -45,7 +64,7 @@ static const float MIN_SPEED = 2.f;
     self.userInteractionEnabled = TRUE;
     _physicsNode.physicsBody.friction = 200;
     //这句可以增加球和桌面的摩擦力
-    [_physicsNode.space setDamping:0.8f];
+    [_physicsNode.space setDamping:0.9f];
     //判断是不是球停了
     isBallStop = true;
     isEffectOccur = false;
@@ -60,7 +79,13 @@ static const float MIN_SPEED = 2.f;
     _expand.visible = false;
     _fix.visible = false;
     _force.visible = false;
+    _redwin.visible = false;
+    _greenwin.visible = false;
+    isGameOn = true;
     
+    scoreOfBlack = 0;
+    scoreOfRed = 0;
+    endCount = 0;
     _physicsNode.collisionDelegate = self;
     
     //存球的数组
@@ -154,13 +179,17 @@ static const float MIN_SPEED = 2.f;
 
 - (void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
+    if(isGameOn){
     // whenever touches move, update the position of the mouseJointNode to the touch position
     CGPoint touchLocation = [touch locationInNode:_contentNode];
     if(isBallStop){
         if(num % 2 == 1){
             _currentball = [CCBReader load:@"RedBall"];
+            
+            //_currentball.isRed = true;
         }else{
             _currentball = [CCBReader load:@"BlackBall"];
+            //_currentball.isRed = false;
         }
         
         _greenturn.visible = false;
@@ -170,22 +199,23 @@ static const float MIN_SPEED = 2.f;
         numOfBall++;
         num++;
         _currentball.position = ccp(30,150);
-        //添加到数组里
+        //添加到物理节点
         [_physicsNode addChild:_currentball];
         CGPoint delta = ccpSub(touchLocation, _currentball.position);
-        [_currentball.physicsBody applyImpulse:ccp(delta.x * 0.3f,delta.y * 0.3f)];
+        [_currentball.physicsBody applyImpulse:ccp(delta.x * 0.6f,delta.y * 0.6f)];
         //让属性改变
-        _currentball.launched = TRUE;
+        isBallLaunched = true;
+        //_currentball.launched = TRUE;
         isBallStop = false;
     }
-    
+    }
 }
 
 
 - (void)update:(CCTime)delta{
     //实时更新，这里可以用来读取球的位置update分数
     // NSLog(@"The state of effect ball is=%d",_effectball.state);
-    NSLog(@"The number in the array is =%lu",(unsigned long)_mySpriteArray.count);
+    //NSLog(@"The number in the array is =%lu",(unsigned long)_mySpriteArray.count);
 
     //如果特效发生，产生通知并定时消失
     if(isEffectOccur){
@@ -201,32 +231,74 @@ static const float MIN_SPEED = 2.f;
     }
     
     //用来读取每个球的位置，并计算分数
+    scoreOfRed = 0;
+    scoreOfBlack = 0;
     for (int i=0; i<_mySpriteArray.count; i++) // Opponents is NSMutableArray
     {
         CCNode* ball = [_mySpriteArray objectAtIndex:i];
-        
+        int curScore = 0;
+        if(ball.position.x > First_Line && ball.position.x < Second_Line){
+            curScore = 1;
+        }else if(ball.position.x > Second_Line && ball.position.x < Third_Line){
+            curScore = 2;
+        }else if(ball.position.x > Third_Line && ball.position.x < Forth_Line){
+            curScore = 4;
+        }else if(ball.position.x > Forth_Line){
+            curScore = -1;
+        }
+        //ball.position.x
+        if([ball isKindOfClass:[RedBall class]]){
+            scoreOfRed = scoreOfRed + curScore;
+        }else{
+            scoreOfBlack = scoreOfBlack + curScore;
+        }
+
         //NSLog(@"The number in the array is =%lu",(unsigned long)_mySpriteArray.count);
         
         
     }
+    finalScoreOfBlack = scoreOfBlack;
+    finalScoreOfRed = scoreOfRed;
+    _blackScoreLabel.string = [NSString stringWithFormat:@"%d",scoreOfBlack];
+    _redScoreLabel.string = [NSString stringWithFormat:@"%d",scoreOfRed];
+    
+    
+    
+    //游戏结束
+    if(isGameOn == false){
+        endCount++;
+        if(endCount == 50){
+        if(finalScoreOfRed > finalScoreOfBlack){
+            _redwin.visible = true;
+        }else{
+            _greenwin.visible = true;
+        }
+        }
+        if(endCount == 200){
+        
+        CCScene *endScene = [CCBReader loadAsScene:@"EndScene"];
+        
+            [[CCDirector sharedDirector] replaceScene:endScene];
+        }
+    }
     
     //判断这个球是否停止运动了，如果是就可以开始下一次了
-    if(_currentball.launched) {
+    if(isBallLaunched) {
         // if speed is below minimum speed, assume this attempt is over
         if (ccpLength(_currentball.physicsBody.velocity) < MIN_SPEED){
             isBallStop = true;
             
+            
+            if(numOfBall == 10){
+                isGameOn = false;
+            }
             //下一轮的提示
+            if(isGameOn){
             if(num % 2 == 0){
                 _greenturn.visible = true;
             }else{
                 _redturn.visible = true;
             }
-            
-            //游戏结束
-            if(numOfBall == 10){
-                CCScene *endScene = [CCBReader loadAsScene:@"EndScene"];
-                [[CCDirector sharedDirector] replaceScene:endScene];
             }
             
             //特效球如果不存在
@@ -237,6 +309,8 @@ static const float MIN_SPEED = 2.f;
                 [_physicsNode addChild:_effectball];
                 isEffectBallExist = true;
             }
+            
+            isBallLaunched = false;
             [self nextAttempt];
             
             return;

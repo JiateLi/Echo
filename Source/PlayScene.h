@@ -9,5 +9,5 @@
 #import "CCNode.h"
 
 @interface PlayScene : CCNode
-
+@property (nonatomic, assign) BOOL isRedWin;
 @end

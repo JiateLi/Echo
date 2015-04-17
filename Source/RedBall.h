@@ -11,6 +11,6 @@
 @interface RedBall : CCSprite
 
 @property (nonatomic, assign) BOOL launched;
-
+@property (nonatomic, assign) BOOL isRed;
 
 @end
