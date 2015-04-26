@@ -150,8 +150,8 @@ static const int Forth_Line = 408;
 //特效球加特效方法
 - (void)becomeBigger:(CCNode *)effectone andBall: (CCNode *)ball{
     [effectone removeFromParent];
-    ball.scale = 2.f;
-    
+   // ball.scale = 2.f;
+    [ball setScale:2.f];
     [ball.physicsBody setDensity:1000.f];
 }
 
@@ -162,7 +162,7 @@ static const int Forth_Line = 408;
 
 - (void)moveQuick:(CCNode *)effectone andBall: (CCNode *)ball{
     [effectone removeFromParent];
-    [ball.physicsBody applyImpulse:ccp(2000.f,2000.3f)];
+    [ball.physicsBody applyImpulse:ccp(800.f,800.3f)];
     
 }
 
@@ -328,5 +328,13 @@ static const int Forth_Line = 408;
     isBallStop = true;
 }
 
+- (void) goback{
+    CCScene *mainScene = [CCBReader loadAsScene:@"MainScene"];
+    [[CCDirector sharedDirector] replaceScene:mainScene];
+}
 
+- (void) tryagain{
+    CCScene *playScene = [CCBReader loadAsScene:@"PlayScene"];
+    [[CCDirector sharedDirector] replaceScene:playScene];
+}
 @end
