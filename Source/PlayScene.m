@@ -64,7 +64,7 @@ static const int Forth_Line = 408;
     self.userInteractionEnabled = TRUE;
     _physicsNode.physicsBody.friction = 200;
     //这句可以增加球和桌面的摩擦力
-    [_physicsNode.space setDamping:0.9f];
+    [_physicsNode.space setDamping:0.6f];
     //判断是不是球停了
     isBallStop = true;
     isEffectOccur = false;
@@ -99,6 +99,11 @@ static const int Forth_Line = 408;
     
     _arrow = [CCBReader load:@"Arrow"];
     _arrow.position = ccp(30, 150);
+    
+    OALSimpleAudio *audio = [OALSimpleAudio sharedInstance];
+    // play background sound
+    [audio playBg:@"TheEntertainer.mp3" loop:YES];
+    
     _arrow.visible = false;
     [_contentNode addChild:_arrow];
     

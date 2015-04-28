@@ -95,6 +95,7 @@
 		BC5399DB1A44DCC90063F482 /* JavaFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D61A44DCC90063F482 /* JavaFoundation.framework */; };
 		BC5399DC1A44DCC90063F482 /* JavaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D71A44DCC90063F482 /* JavaKit.framework */; };
 		D500A00A1AB8C5A4001BD06E /* BlackBall.m in Sources */ = {isa = PBXBuildFile; fileRef = D500A0091AB8C5A4001BD06E /* BlackBall.m */; };
+		D5018AD01AEF383700BEE610 /* TheEntertainer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D5018ACF1AEF383700BEE610 /* TheEntertainer.mp3 */; };
 		D52981FC1AD5CCFE00C7DCFA /* EndScene.m in Sources */ = {isa = PBXBuildFile; fileRef = D52981FB1AD5CCFE00C7DCFA /* EndScene.m */; };
 		D53A61911AC7226E004C1A9A /* EffectBall.m in Sources */ = {isa = PBXBuildFile; fileRef = D53A61901AC7226E004C1A9A /* EffectBall.m */; };
 		D57D11FA1AC77C520089A88B /* Arrow.m in Sources */ = {isa = PBXBuildFile; fileRef = D57D11F91AC77C520089A88B /* Arrow.m */; };
@@ -221,6 +222,7 @@
 		D352B48019EC608A00829775 /* MetalShaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MetalShaders; path = Source/MetalShaders; sourceTree = "<group>"; };
 		D500A0081AB8C5A4001BD06E /* BlackBall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackBall.h; path = Source/BlackBall.h; sourceTree = "<group>"; };
 		D500A0091AB8C5A4001BD06E /* BlackBall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlackBall.m; path = Source/BlackBall.m; sourceTree = "<group>"; };
+		D5018ACF1AEF383700BEE610 /* TheEntertainer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = TheEntertainer.mp3; sourceTree = "<group>"; };
 		D52981FA1AD5CCFE00C7DCFA /* EndScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EndScene.h; path = Source/EndScene.h; sourceTree = "<group>"; };
 		D52981FB1AD5CCFE00C7DCFA /* EndScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EndScene.m; path = Source/EndScene.m; sourceTree = "<group>"; };
 		D53A618F1AC7226E004C1A9A /* EffectBall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectBall.h; path = Source/EffectBall.h; sourceTree = "<group>"; };
@@ -548,6 +550,7 @@
 		B77F1B4617B978D7009739AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D5018ACF1AEF383700BEE610 /* TheEntertainer.mp3 */,
 				7A40366119DDF8C2007B6E8F /* Platforms */,
 				5B12100D197483EE004C1E1D /* res */,
 				B73789911807667A0076A88C /* Icons */,
@@ -759,6 +762,7 @@
 			files = (
 				B71F5919188484E7003F4D28 /* Settings.png in Resources */,
 				B7378978180762440076A88C /* Default@2x.png in Resources */,
+				D5018AD01AEF383700BEE610 /* TheEntertainer.mp3 in Resources */,
 				B71F5914188484E7003F4D28 /* iPad@2x.png in Resources */,
 				B71F5913188484E7003F4D28 /* iPad.png in Resources */,
 				B71F5912188484E7003F4D28 /* iPad-old@2x.png in Resources */,
