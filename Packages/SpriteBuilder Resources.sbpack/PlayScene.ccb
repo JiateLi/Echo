@@ -415,7 +415,7 @@
 									<key>dynamic</key>
 									<false/>
 									<key>elasticity</key>
-									<real>0.60000002384185791</real>
+									<real>0.20000000298023224</real>
 									<key>friction</key>
 									<real>0.30000001192092896</real>
 									<key>points</key>
@@ -701,7 +701,7 @@
 									<key>dynamic</key>
 									<false/>
 									<key>elasticity</key>
-									<real>0.60000002384185791</real>
+									<real>0.20000000298023224</real>
 									<key>friction</key>
 									<real>0.30000001192092896</real>
 									<key>points</key>
@@ -807,6 +807,8 @@
 										</array>
 									</dict>
 								</array>
+								<key>selected</key>
+								<true/>
 							</dict>
 						</array>
 						<key>customClass</key>
@@ -4160,8 +4162,6 @@
 						<array/>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>

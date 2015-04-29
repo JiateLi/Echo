@@ -207,7 +207,7 @@ static const int Forth_Line = 408;
         //添加到物理节点
         [_physicsNode addChild:_currentball];
         CGPoint delta = ccpSub(touchLocation, _currentball.position);
-        [_currentball.physicsBody applyImpulse:ccp(delta.x * 0.6f,delta.y * 0.6f)];
+        [_currentball.physicsBody applyImpulse:ccp(delta.x * 0.9f,delta.y * 0.9f)];
         //让属性改变
         isBallLaunched = true;
         //_currentball.launched = TRUE;
