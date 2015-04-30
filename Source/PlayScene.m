@@ -32,7 +32,6 @@ static const int Forth_Line = 408;
     CCNode *_force;
     CCNode *_expand;
     
-    
     CCLabelTTF *_blackScoreLabel;
     CCLabelTTF *_redScoreLabel;
     
@@ -63,16 +62,17 @@ static const int Forth_Line = 408;
     // tell this scene to accept touches
     self.userInteractionEnabled = TRUE;
     _physicsNode.physicsBody.friction = 200;
-    //这句可以增加球和桌面的摩擦力
+    //add friction between the balls and background
     [_physicsNode.space setDamping:0.6f];
-    //判断是不是球停了
+    //if the ball is stopped
     isBallStop = true;
+    //if the effect ball collides with balls
     isEffectOccur = false;
-    //局数
+    //number of rounds
     num = 1;
-    //球的个数
+    //number of balls
     numOfBall = 0;
-    //回合提醒关显示
+    //notification of round
     _redturn.visible = true;
     _greenturn.visible = false;
     _disappear.visible = false;
@@ -88,7 +88,7 @@ static const int Forth_Line = 408;
     endCount = 0;
     _physicsNode.collisionDelegate = self;
     
-    //存球的数组
+    //array to store all the balls to calculate the score
     _mySpriteArray=[[NSMutableArray alloc] init];
     _effectball =[CCBReader load:@"EffectBall"];
     _effectball.state = [self getRandomNumberBetweenMin:1 andMax:4];
@@ -118,41 +118,47 @@ static const int Forth_Line = 408;
 -(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair effect:(EffectBall *)nodeA wildcard:(CCNode *)nodeB
 {
     isEffectOccur = true;
-    
-    //看球的类型，如果是类型1，就移走小球
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"CollideEffect"];
+    // make the particle effect clean itself up, once it is completed
+    explosion.autoRemoveOnFinish = TRUE;
+    // place the particle effect on the seals position
+    explosion.position = nodeA.position;
+    // add the particle effect to the same node the seal is on
+    [nodeA.parent addChild:explosion];
+    //if the type of effect ball is 1, remove the ball collides with it
     if(nodeA.state == 1){
         _disappear.visible = true;
         [[_physicsNode space] addPostStepBlock:^{
             [self ballRemoved:nodeA andBall:nodeB];
         } key:nodeA];
     }
-    //如果是特效2，给碰到的小球一个超大的力
+    //if the type of effect ball is 2, add a force to the ball
     else if(nodeA.state == 2){
         _force.visible = true;
         [[_physicsNode space] addPostStepBlock:^{
             [self moveQuick:nodeA andBall:nodeB];
         } key:nodeA];
     }
-    //如果是特效3，给碰到的小球加密度，使他不会再动
+    //if the type of effect ball is 3, fix that ball
     else if(nodeA.state == 3){
         _fix.visible = true;
         [[_physicsNode space] addPostStepBlock:^{
             [self addDensity:nodeA andBall:nodeB];
         } key:nodeA];
     }
-    //类型4，变大球，加密度
+    //if the type of effect ball is 4, expand that ball
     else if(nodeA.state == 4){
         _expand.visible = true;
         [[_physicsNode space] addPostStepBlock:^{
             [self becomeBigger:nodeA andBall:nodeB];
         } key:nodeA];
     }
-    //特效球暂时没有了，等球停下来后，特效求再次出现
+    //set the effect does not exist, when the ball stops, new effect ball would appear
     isEffectBallExist = false;
     
 }
 
-//特效球加特效方法
+//the method to add effect to effect ball
 - (void)becomeBigger:(CCNode *)effectone andBall: (CCNode *)ball{
     [effectone removeFromParent];
    // ball.scale = 2.f;
@@ -182,6 +188,7 @@ static const int Forth_Line = 408;
 
 }
 
+//when touch ended, shot a ball
 - (void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
     if(isGameOn){
@@ -199,16 +206,16 @@ static const int Forth_Line = 408;
         
         _greenturn.visible = false;
         _redturn.visible = false;
-        //添加到数组里
+        //add the ball to the array
         [_mySpriteArray insertObject:_currentball atIndex:_mySpriteArray.count];
         numOfBall++;
         num++;
         _currentball.position = ccp(30,150);
-        //添加到物理节点
+        //add that ball to physical node
         [_physicsNode addChild:_currentball];
         CGPoint delta = ccpSub(touchLocation, _currentball.position);
         [_currentball.physicsBody applyImpulse:ccp(delta.x * 0.9f,delta.y * 0.9f)];
-        //让属性改变
+        //set isBallLaunched to true
         isBallLaunched = true;
         //_currentball.launched = TRUE;
         isBallStop = false;
@@ -218,11 +225,11 @@ static const int Forth_Line = 408;
 
 
 - (void)update:(CCTime)delta{
-    //实时更新，这里可以用来读取球的位置update分数
+    //update in a fixed interval
     // NSLog(@"The state of effect ball is=%d",_effectball.state);
     //NSLog(@"The number in the array is =%lu",(unsigned long)_mySpriteArray.count);
 
-    //如果特效发生，产生通知并定时消失
+    //when effect occurs, show the notification to tell the type of effect ball
     if(isEffectOccur){
         effectTimeCount++;
         if(effectTimeCount == 20){
@@ -235,7 +242,7 @@ static const int Forth_Line = 408;
         }
     }
     
-    //用来读取每个球的位置，并计算分数
+    //read all the balls in the screen and calculate the score
     scoreOfRed = 0;
     scoreOfBlack = 0;
     for (int i=0; i<_mySpriteArray.count; i++) // Opponents is NSMutableArray
@@ -269,7 +276,7 @@ static const int Forth_Line = 408;
     
     
     
-    //游戏结束
+    //if game ends, show the result and change to the end scene
     if(isGameOn == false){
         endCount++;
         if(endCount == 50){
@@ -287,7 +294,7 @@ static const int Forth_Line = 408;
         }
     }
     
-    //判断这个球是否停止运动了，如果是就可以开始下一次了
+    //check if a ball is stopped after launched, if yes, trun to new round
     if(isBallLaunched) {
         // if speed is below minimum speed, assume this attempt is over
         if (ccpLength(_currentball.physicsBody.velocity) < MIN_SPEED){
@@ -297,7 +304,7 @@ static const int Forth_Line = 408;
             if(numOfBall == 10){
                 isGameOn = false;
             }
-            //下一轮的提示
+            //notification of next round
             if(isGameOn){
             if(num % 2 == 0){
                 _greenturn.visible = true;
@@ -306,7 +313,7 @@ static const int Forth_Line = 408;
             }
             }
             
-            //特效球如果不存在
+            //if the effect ball does not exist, generate a new one
             if(!isEffectBallExist){
                 _effectball =[CCBReader load:@"EffectBall"];
                 _effectball.state = [self getRandomNumberBetweenMin:1 andMax:4];

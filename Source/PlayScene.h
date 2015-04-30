@@ -10,4 +10,5 @@
 
 @interface PlayScene : CCNode
 @property (nonatomic, assign) BOOL isRedWin;
+@property (nonatomic, assign) int highScore;
 @end

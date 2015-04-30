@@ -9,6 +9,9 @@
 #import "EndScene.h"
 #import "MainScene.h"
 #import "PlayScene.h"
+//#import <FBSDKCoreKit/FBSDKCoreKit.h>
+//#import <FBSDKShareKit/FBSDKShareKit.h>
+//#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 @implementation EndScene
 
@@ -26,21 +29,21 @@
     CCScene *playScene = [CCBReader loadAsScene:@"PlayScene"];
     [[CCDirector sharedDirector] replaceScene:playScene];
 }
-
--(void) shareToFacebook {
-    FBSDKShareLinkContent *content = [[FBSDKShareLinkContent alloc] init];
-    
-    // this should link to FB page for your app or AppStore link if published
-    content.contentURL = [NSURL URLWithString:@"https://www.facebook.com/lijiate"];
-    // URL of image to be displayed alongside post
-    content.imageURL = [NSURL URLWithString:@"https://git.makeschool.com/MakeSchool-Tutorials/News/f744d331484d043a373ee2a33d63626c352255d4//663032db-cf16-441b-9103-c518947c70e1/cover_photo.jpeg"];
-    // title of post
-    content.contentTitle = [NSString stringWithFormat:@"My lucky number is %@!", _luckyNumberLabel.string];
-    // description/body of post
-    content.contentDescription = @"Check out My Lucky Number to get your own.";
-    
-    [FBSDKShareDialog showFromViewController:[CCDirector sharedDirector]
-                                 withContent:content
-                                    delegate:nil];
-}
+//
+//-(void) shareToFacebook {
+//    FBSDKShareLinkContent *content = [[FBSDKShareLinkContent alloc] init];
+//    
+//    // this should link to FB page for your app or AppStore link if published
+//    content.contentURL = [NSURL URLWithString:@"https://www.facebook.com/lijiate"];
+//    // URL of image to be displayed alongside post
+//    content.imageURL = [NSURL URLWithString:@"https://github.com/JiateLi/Echo/blob/master/background.png"];
+//    // title of post
+//    content.contentTitle = [NSString stringWithFormat:@"My score of Curling game is %@!", PlayScene.highScore];
+//    // description/body of post
+//    content.contentDescription = @"Check out My Score of Curling game.";
+//    
+//    [FBSDKShareDialog showFromViewController:[CCDirector sharedDirector]
+//                                 withContent:content
+//                                    delegate:nil];
+//}
 @end
